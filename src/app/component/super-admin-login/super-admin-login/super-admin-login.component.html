@@ -1,0 +1,37 @@
+<div class="login-container">
+    <h2>SuperAdmin Login</h2>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="credentials.email"
+          required
+          class="form-control"
+          placeholder="Enter your email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="credentials.password"
+          required
+          class="form-control"
+          placeholder="Enter your password"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </form>
+  
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+  

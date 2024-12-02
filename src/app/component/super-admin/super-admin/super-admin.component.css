@@ -1,0 +1,38 @@
+.container {
+    margin-top: 2rem;
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .table {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .table thead th {
+    background: #343a40;
+    color: white;
+  }
+  
+  .table tbody tr:hover {
+    background: #f1f8e9;
+  }
+  
+  button {
+    margin-right: 5px;
+    gap: 30px;
+  }
+  
+  button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  

@@ -1,0 +1,50 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Management</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <!-- <th>Status</th>
+            <th>Subscription</th> -->
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of admins">
+            <td>{{ admin.id }}</td>
+            <td>{{ admin.name }}</td>
+            <td>{{ admin.email }}</td>
+            <!-- <td>{{ admin.status }}</td>
+            <td>{{ admin.subscription }}</td> -->
+            <td>
+              <!-- Approve Button -->
+              <button
+                class="btn btn-success btn-sm"
+                (click)="approveAdmin(admin.id)"
+                [disabled]="admin.status === 'Approved'"
+              >
+                Approve
+              </button>
+  
+              <!-- Disable Button -->
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="disableAdmin(admin.id)"
+                [disabled]="admin.status === 'Disabled'"
+              >
+                Disable
+              </button>
+            </td>
+          </tr>
+          <!-- Display message when no admins are found -->
+          <tr *ngIf="admins.length === 0">
+            <td colspan="6" class="text-center">No admins found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

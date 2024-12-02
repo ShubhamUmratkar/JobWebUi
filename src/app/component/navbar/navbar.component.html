@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <a href="#" class="navbar-logo">
+    <img src="../../../assets/AchaJobs.png" alt="Company Logo" />
+  </a>
+
+  <!-- Hamburger Icon for Mobile View -->
+  <button class="hamburger-icon" (click)="toggleNavbar()">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <!-- Navigation Items -->
+  <ul class="nav-items" [class.open]="isNavbarOpen">
+    <li *ngFor="let item of navItems" class="nav-item">
+      <a>{{ item.label }}</a>
+      <div class="dropdown" *ngIf="item.categories">
+        <div class="dropdown-category" *ngFor="let category of item.categories">
+          <h3>{{ category.title }}<span class="dropdown-icon"></span></h3>
+          <div class="secondary-dropdown">
+            <a *ngFor="let subItem of category.items" href="#">
+              {{ subItem }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Conditional Login/Logout Button -->
+  <button class="login-button" *ngIf="!isLoggedIn" routerLink="/login">
+    Login
+  </button>
+  <button class="logout-button" *ngIf="isLoggedIn" (click)="logout()">
+    Logout
+  </button>
+</nav>
