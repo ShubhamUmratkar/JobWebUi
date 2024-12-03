@@ -30,6 +30,7 @@ import { ViewAllFormsAdminComponent } from './component/view-all-forms-admin/vie
 import { UserhomepageComponent } from './component/userhomepage/userhomepage.component';
 import { SuperAdminComponent } from './component/super-admin/super-admin/super-admin.component';
 import { AdminregisterComponent } from './component/adminregister/adminregister/adminregister.component';
+import { JobnotificationComponent } from './component/jobnotification/jobnotification.component';
 
 
 const routes: Routes = [
@@ -61,9 +62,9 @@ const routes: Routes = [
   { path: 'apply-job/:id', component:ApplyJobComponent},
   {path: 'apply-internship/:id' ,component:ApplyInternshipComponent},
   {path:'view-all-forms-admin',component:ViewAllFormsAdminComponent},
-  // { path: '**', redirectTo: '' } ,
   {path:'userhomepage',component:UserhomepageComponent},
-  {path:'super-admin', component:SuperAdminComponent}
+  {path:'super-admin', component:SuperAdminComponent},
+  {path:'jobnotification',component:JobnotificationComponent},
 
 
 

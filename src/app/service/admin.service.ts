@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Admin } from '../model/admin.model';
+import { Job } from '../model/job.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +28,8 @@ export class AdminService {
    * @param password - Admin password
    * @returns Observable<string>
    */
-  loginAdmin(username: string, password: string): Observable<string> {
-    const body = { username, password }; // Send credentials in the body
- 
-    return this.http
-      .post<string>(`${this.baseUrl}/loginAdmin`, body, { responseType: 'text' as 'json' })
-      .pipe(catchError(this.handleError('loginAdmin')));
+  loginAdmin(username: string, password: string): Observable<Admin> {
+    return this.http.post<Admin>(`${this.baseUrl}/loginAdmin`, { username, password });
   }
 
 
@@ -63,5 +60,10 @@ export class AdminService {
   // Get the admin's username
   getAdminName() {
     return this.adminNameSubject.asObservable(); // Returns an observable
+  }
+
+
+  postJob(adminId: number, job: Job): Observable<any> {
+    return this.http.post(`${this.baseUrl}/JobPost/${adminId}`, job);
   }
 }

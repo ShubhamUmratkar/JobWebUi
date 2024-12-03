@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Job } from 'src/app/model/job.model';
+import { AdminService } from 'src/app/service/admin.service';
 import { JobService } from 'src/app/service/job.service';
+import { JobnotificationService } from 'src/app/service/jobnotification.service';
 
 
 @Component({
@@ -10,7 +12,6 @@ import { JobService } from 'src/app/service/job.service';
 })
 export class SaveJobComponent {
   job: Job = {
-    id: undefined,
     title: '',
     category: '',
     location: '',
@@ -18,13 +19,10 @@ export class SaveJobComponent {
     workModel: '',
     experience: '',
     salary: 0.0,
-    status: '',
-    adminId: 0,
-    created_at: new Date().toISOString().slice(0, 16),
-    updated_at: new Date().toISOString().slice(0, 16),
-    jobDescription: '',
     skills: '',
     company: '',
+    jobDescription: '',
+    status: 'Active', // Default status
     openingStartDate: '',
     lastApplyDate: '',
     numberOfOpenings: 0,
@@ -32,18 +30,43 @@ export class SaveJobComponent {
     companyDescription: '',
   };
 
-  jobs: Job[] = [];
-  errorMessage: string | null = null;
   successMessage: string | null = null;
+  errorMessage: string | null = null;
+  adminId: number | null = null; // Initially null
 
-  constructor(private jobService: JobService) {}
+  jobs: Job[] = [];
+
+  constructor(
+    private jobService: JobService, 
+    private jobNotificationService: JobnotificationService, 
+    private adminService: AdminService
+  ) {}
 
   ngOnInit(): void {
-    this.loadJobs();
+    // Retrieve adminId from localStorage after login
+    const storedAdminId = localStorage.getItem('adminId');
+
+    if (storedAdminId) {
+      this.adminId = parseInt(storedAdminId, 10); // Convert to number
+    }
+
+    if (this.adminId !== null) {
+      this.loadJobs(this.adminId);
+    } else {
+      // Handle case where adminId is not available, e.g., redirect to login page
+      this.errorMessage = 'You must be logged in to manage jobs.';
+      // Optionally redirect to the login page
+      // this.router.navigate(['/login']);
+    }
   }
 
-  loadJobs(): void {
-    this.jobService.getAllJobs().subscribe({
+  loadJobs(adminId: number): void {
+    if (adminId === null) {
+      this.errorMessage = 'Admin ID is missing!';
+      return;
+    }
+
+    this.jobService.getJobsByAdmin(adminId).subscribe({
       next: (response) => {
         this.jobs = response;
         this.errorMessage = null;
@@ -61,23 +84,21 @@ export class SaveJobComponent {
       return;
     }
 
-    const adminId = this.job.adminId ?? 0;
-
-    if (adminId === 0) {
-      alert('Admin ID is required!');
+    if (this.adminId === null) {
+      alert('Admin not logged in!');
       return;
     }
 
-    this.jobService.saveJob(adminId, this.job).subscribe({
+    // Post job data to backend using JobService
+    this.adminService.postJob(this.adminId, this.job).subscribe({
       next: (response) => {
-        this.successMessage = 'Job saved successfully!';
-        alert("Job Added Successfully!");
-        this.loadJobs();
-        setTimeout(() => this.successMessage = null, 3000); // Hide after 3 seconds
+        this.successMessage = 'Job posted successfully!';
+        console.log('Job posted:', response);
+        alert('Job posted successfully!');
       },
       error: (error) => {
-        console.error('Error saving job:', error);
-        this.errorMessage = 'Failed to save the job. Check the console for details.';
+        console.error('Error posting job:', error);
+        this.errorMessage = 'Failed to post the job. Please try again later.';
       },
     });
   }
@@ -88,10 +109,16 @@ export class SaveJobComponent {
       return;
     }
 
+    if (this.adminId === null) {
+      alert('Admin not logged in!');
+      return;
+    }
+
     this.jobService.updateJob(this.job.id, this.job).subscribe({
       next: (updatedJob) => {
         this.successMessage = 'Job updated successfully!';
-        this.loadJobs();
+        alert("Job Updated Successfully!");
+        // this.loadJobs(this.adminId);
         setTimeout(() => this.successMessage = null, 3000);
       },
       error: (error) => {
@@ -107,10 +134,15 @@ export class SaveJobComponent {
       return;
     }
 
+    if (this.adminId === null) {
+      alert('Admin not logged in!');
+      return;
+    }
+
     this.jobService.deleteJob(id).subscribe({
       next: () => {
         this.successMessage = 'Job deleted successfully!';
-        this.loadJobs();
+        // this.loadJobs(this.adminId);
         setTimeout(() => {
           this.successMessage = null;
           window.location.reload(); // Reload the page after success message disappears

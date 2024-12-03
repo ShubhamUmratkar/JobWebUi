@@ -16,7 +16,7 @@ export class AdminlogindynamicComponent {
   username: string = '';
   password: string = '';
   showPassword: boolean = false;
- 
+
   constructor(
     private fb: FormBuilder,
     private AdminService: AdminService,
@@ -27,11 +27,11 @@ export class AdminlogindynamicComponent {
       password: ['', [Validators.required]], // Password validation
     });
   }
- 
+
   ngOnInit(): void {
     // Initialization logic, if any
   }
- 
+
   onLogin() {
     if (this.loginForm.invalid) {
       // Form validation error
@@ -39,15 +39,31 @@ export class AdminlogindynamicComponent {
       this.loginError = true;
       return;
     }
- 
+
     const { username, password } = this.loginForm.value;
     this.isLoading = true; // Start loading spinner
- 
+
+    // Make the API call to login the admin
     this.AdminService.loginAdmin(username, password).subscribe(
-      (response: string) => {
+      (response: any) => {  // response is of type 'any' here
         this.isLoading = false; // Stop loading spinner
-        console.log(response,'Response');
-        this.router.navigate(['/save-job']); // Navigate to dashboard
+        console.log('Full Response:', response);  // Log the full response to check its structure
+
+        // Check if the response has the 'id' property
+        if (response && response.id !== undefined) {
+          const adminId = response.id;
+          console.log('Admin ID:', adminId);  // Log the Admin ID
+
+          // Save the admin ID to localStorage
+          localStorage.setItem('adminId', adminId.toString());
+
+          // Navigate to the next page (e.g., save-job page)
+          this.router.navigate(['/save-job']);
+        } else {
+          console.error('Admin ID is missing or undefined in the response');
+          this.errorMessage = 'Failed to retrieve Admin ID.';
+          this.loginError = true;
+        }
       },
       (error) => {
         this.isLoading = false; // Stop loading spinner
@@ -57,7 +73,7 @@ export class AdminlogindynamicComponent {
     );
   }
 
-  navigateToHome(){
+  navigateToHome() {
     this.router.navigate(['/']);
   }
 }

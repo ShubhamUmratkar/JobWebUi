@@ -34,6 +34,8 @@ import { UserhomepageComponent } from './component/userhomepage/userhomepage.com
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { SuperAdminComponent } from './component/super-admin/super-admin/super-admin.component';
 import { AdminregisterComponent } from './component/adminregister/adminregister/adminregister.component';
+import { JobnotificationComponent } from './component/jobnotification/jobnotification.component';
+import { PendingPostComponent } from './component/pending-post/pending-post.component';
 
 
 
@@ -69,6 +71,8 @@ import { AdminregisterComponent } from './component/adminregister/adminregister/
     ViewAllFormsAdminComponent,
     UserhomepageComponent,
     SuperAdminComponent,
+    JobnotificationComponent,
+    PendingPostComponent,
 
   ],
   imports: [

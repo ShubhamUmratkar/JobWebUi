@@ -45,6 +45,7 @@ export class ViewJobComponent implements OnInit {
         this.router.navigate(['/not-found']);
       }
     });
+    
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0);
@@ -69,7 +70,7 @@ export class ViewJobComponent implements OnInit {
           this.perks = job.perks || 'Loading...';
           this.openings = job.numberOfOpenings || 0;
           this.companyDescription = job.companyDescription || 'Loading...';
-          this.activity.started = job.created_at || 'Loading...';
+   
           this.activity.opportunities = 1;
           this.activity.hired = 4;
         } else {

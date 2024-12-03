@@ -66,28 +66,18 @@
       </div>
 
       <div class="form-container">
-        <!-- Success Message -->
-        <div *ngIf="successMessage" class="alert alert-success">
+
+        <!-- <div *ngIf="successMessage" class="alert alert-success">
           {{ successMessage }}
         </div>
 
-        <!-- Error Message -->
+     
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
-        </div>
+        </div> -->
 
         <form #jobForm="ngForm" (ngSubmit)="saveJob(jobForm)">
           <!-- Existing fields -->
-          <!-- <label for="id">ID:</label>
-    <input
-      id="id"
-      type="number"
-      [(ngModel)]="job.id"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-      [value]="job.id ?? 0"
-      name="id"
-      readonly
-    /> -->
 
           <label for="title">Title:</label>
           <input
@@ -117,22 +107,28 @@
           />
 
           <label for="employmentType">Employment Type:</label>
-          <input
+          <select
             id="employmentType"
-            type="text"
             [(ngModel)]="job.employmentType"
             name="employmentType"
             required
-          />
+          >
+            <option value="Full Time">Full Time</option>
+            <option value="Part Time">Part Time</option>
+          </select>
 
           <label for="workModel">Work Model:</label>
-          <input
+          <select
             id="workModel"
-            type="text"
             [(ngModel)]="job.workModel"
             name="workModel"
             required
-          />
+          >
+            <option value="WFO">WFO (Work From Office)</option>
+            <option value="WFH">WFH (Work From Home)</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Remote">Remote</option>
+          </select>
 
           <label for="experience">Experience:</label>
           <input
@@ -153,14 +149,16 @@
           />
 
           <label for="status">Status:</label>
-          <input
+          <select
             id="status"
-            type="text"
             [(ngModel)]="job.status"
             name="status"
             required
-          />
-
+          >
+            <option value="Active">Active</option>
+            <option value="Deactive">Deactive</option>
+          </select>
+<!-- 
           <label for="adminId">Admin ID:</label>
           <input
             id="adminId"
@@ -168,25 +166,7 @@
             [(ngModel)]="job.adminId"
             name="adminId"
             required
-          />
-
-          <label for="createdAt">Created At:</label>
-          <input
-            id="createdAt"
-            type="datetime-local"
-            [(ngModel)]="job.created_at"
-            name="createdAt"
-            readonly
-          />
-
-          <label for="updatedAt">Updated At:</label>
-          <input
-            id="updatedAt"
-            type="datetime-local"
-            [(ngModel)]="job.updated_at"
-            name="updatedAt"
-            readonly
-          />
+          /> -->
 
           <label for="jobDescription">Job Description:</label>
           <textarea

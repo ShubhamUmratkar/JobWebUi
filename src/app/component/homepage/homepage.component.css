@@ -279,3 +279,39 @@
     height: 200px;
   }
 }
+
+
+/* Style the bell icon */
+.bell-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.bell-icon {
+  font-size: 2rem;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.bell-icon.active {
+  color: #ff6347; /* Change color when notification is active */
+}
+
+/* Style the notification badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 1.5rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

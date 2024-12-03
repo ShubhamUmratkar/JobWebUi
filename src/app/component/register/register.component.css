@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto; /* Enable scrolling if content overflows */
 }
 
 /* Register container with blur effect */
@@ -21,6 +22,13 @@
   backdrop-filter: blur(20px); /* Blur effect */
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   color: #686f70; /* Dark text for better contrast */
+  box-sizing: border-box; /* Ensures padding does not overflow */
+  position: relative; /* Keeps the form content inside */
+  z-index: 2;
+  margin: 0 auto; /* Centers the form horizontally */
+  max-height: 95vh; /* Limit height to prevent overflow */
+  overflow-y: auto; /* Enable vertical scrolling for the form */
+  scroll-behavior: smooth; /* Smooth scroll effect when scrolling */
 }
 
 /* Adjust text size for h2 */
@@ -63,7 +71,6 @@
   width: 100%;
   padding: 12px;
   background-color: #006eb3fe;
-
   color: white;
   border: none;
   border-radius: 5px;
@@ -94,11 +101,116 @@
   text-decoration: underline;
 }
 
+/* Custom scrollbar styling (Webkit browsers like Chrome, Safari, and Edge) */
+.register-container::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+.register-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* Darker color for the thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+  transition: background-color 0.3s ease;
+}
+
+.register-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.6); /* Darken on hover */
+}
+
+.register-container::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1); /* Light track background */
+  border-radius: 10px; /* Rounded corners for the scrollbar track */
+}
+
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Mobile Phones: portrait and landscape */
+@media (max-width: 480px) {
   .register-container {
-    padding: 20px;
+    padding: 15px;
     width: 90%;
+    max-width: 400px;
+  }
+
+  .register-container h2 {
+    font-size: 1rem;
+  }
+
+  .register-container input,
+  .register-container select {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .register-container button {
+    font-size: 0.9rem;
   }
 }
 
+/* Tablets */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+  }
+
+  .register-container h2 {
+    font-size: 1.1rem;
+  }
+
+  .register-container input,
+  .register-container select {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .register-container button {
+    font-size: 1rem;
+  }
+}
+
+/* Small desktops or larger tablets in landscape mode */
+@media (max-width: 1024px) {
+  .register-container {
+    padding: 25px;
+    width: 70%;
+    max-width: 600px;
+  }
+
+  .register-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .register-container input,
+  .register-container select {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .register-container button {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large desktops or very large tablets */
+@media (min-width: 1200px) {
+  .register-container {
+    padding: 30px;
+    width: 50%;
+    max-width: 700px;
+  }
+
+  .register-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .register-container input,
+  .register-container select {
+    font-size: 1rem;
+    padding: 14px;
+  }
+
+  .register-container button {
+    font-size: 1.2rem;
+  }
+}

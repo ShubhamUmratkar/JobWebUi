@@ -47,6 +47,7 @@ export class InternshipComponent implements OnInit {
   createInternship(): void {
     if (this.internshipForm.valid) {
       this.internshipService.createInternship(this.internshipForm.value, this.adminId).subscribe(() => {
+        alert("Internship Added Successfully!");
         this.fetchInternships();
         this.internshipForm.reset();
       });
@@ -61,6 +62,7 @@ export class InternshipComponent implements OnInit {
   updateInternship(): void {
     if (this.selectedInternship && this.internshipForm.valid) {
       this.internshipService.updateInternship(this.selectedInternship.id, this.internshipForm.value).subscribe(() => {
+        alert("Internship Updated Successfully!");
         this.fetchInternships();
         this.internshipForm.reset();
         this.selectedInternship = null;
@@ -70,6 +72,7 @@ export class InternshipComponent implements OnInit {
 
   deleteInternship(id: number): void {
     this.internshipService.deleteInternship(id).subscribe(() => {
+      alert("Internship Deleted Successfully!");
       this.fetchInternships();
     });
     this.fetchInternships();

@@ -54,32 +54,34 @@ export class RegisterComponent {
     };
   }
 
-  onSubmit() {
-    this.submitted = true;
   
-    if (this.registerForm.invalid) {
-      return;
-    }
-  
-    const user = new User(this.registerForm.value); // Pass form values to the constructor
-  
-    this.userService.registerUser(user).subscribe(
-      response => {
-        if (response.success) {
-          alert(response.message); // Show success message
-          this.router.navigate(['/login']);
-        } else {
-          alert(response.message); // Show failure message
-        }
-    
-      },
-      error => {
-        alert('Registration failed. Please try again later.');
-        console.error('Error:', error);
-      }
-    );
+onSubmit() {
+  this.submitted = true;
+
+  if (this.registerForm.invalid) {
+    return;
   }
-  
+
+  const user = new User(this.registerForm.value); // Pass form values to the constructor
+
+  this.userService.registerUser(user).subscribe(
+    response => {
+      if (response.success) {
+        alert(response.message); 
+        this.router.navigate(['/login']);
+      } else {
+        alert(response.message); // Show failure message
+      }
+    },
+    error => {
+      // Show backend error message or a generic one
+      alert(`Registration failed: ${error.message}`);
+      console.error('Error:', error);
+    }
+  );
+}
+
+
 
   get f() {
     return this.registerForm.controls;

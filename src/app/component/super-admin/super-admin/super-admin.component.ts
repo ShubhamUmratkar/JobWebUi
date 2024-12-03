@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PendingPost } from 'src/app/model/pending-post';
 import { SuperAdminService } from 'src/app/service/super-admin.service';
 
 @Component({
@@ -15,11 +16,14 @@ export class SuperAdminComponent implements OnInit {
   loading: boolean = false; // To indicate if the request is loading
   http: any;
 
+  pendingPosts: PendingPost[] = [];
+
 
   constructor(private superAdminService: SuperAdminService) {}
 
   ngOnInit(): void {
     this.loadAdmins();
+    this.loadPendingPosts(); // Load pending posts when the component initializes
 
   }
 
@@ -91,6 +95,46 @@ export class SuperAdminComponent implements OnInit {
   // }
 
 
+    // Method to load all pending posts
+    loadPendingPosts(): void {
+      this.superAdminService.getAllPendingPosts().subscribe({
+        next: (posts) => {
+          this.pendingPosts = posts;
+        },
+        error: (err) => {
+          console.error('Error loading pending posts:', err);
+        },
+      });
+    }
 
 
+     // Approve post
+   // Approve a pending post
+   approvePost(postId: number, isApproved: boolean): void {
+    this.superAdminService.approvePost(postId, isApproved).subscribe({
+      next: (response) => {
+        console.log(response);
+        alert("Post Approved SuccessFully");
+        this.loadPendingPosts();  // Reload the list after action
+      },
+      error: (err) => {
+        console.error('Error approving post:', err);
+      },
+    });
+  }
+
+  // Disapprove (Reject) a pending post
+  disapprovePost(postId: number): void {
+    this.superAdminService.disapprovePost(postId).subscribe({
+      next: (response) => {
+        alert("Post Disapproved SuccessFully");
+
+        console.log(response);
+        this.loadPendingPosts();  // Reload the list after action
+      },
+      error: (err) => {
+        console.error('Error disapproving post:', err);
+      },
+    });
+  }
 }

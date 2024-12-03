@@ -48,3 +48,59 @@
     </div>
   </div>
   
+
+
+
+
+ <!-- super-admin.component.html -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Pending Posts</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Content</th>
+          <th>Admin ID</th>
+          <th>Created At</th>
+          <th>Approved</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of pendingPosts">
+          <td>{{ post.id }}</td>  <!-- Auto-generated ID -->
+          <td>{{ post.type }}</td>
+          <td>{{ post.content }}</td>
+          <td>{{ post.adminId }}</td>
+          <td>{{ post.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td>{{ post.approved ? 'Yes' : 'No' }}</td>
+          <td>
+            <!-- Approve Button -->
+            <button
+              class="btn btn-success btn-sm"
+              (click)="approvePost(post.id, true)"
+              [disabled]="post.approved"
+            >
+              Approve
+            </button>
+
+            <!-- Reject Button -->
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="disapprovePost(post.id)"
+              [disabled]="!post.approved"
+            >
+              Reject
+            </button>
+          </td>
+        </tr>
+        <!-- Display message when no pending posts are found -->
+        <tr *ngIf="pendingPosts.length === 0">
+          <td colspan="7" class="text-center">No pending posts found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

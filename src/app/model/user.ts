@@ -7,7 +7,7 @@ export class User {
   password: string;
   confirmPassword: string;
   status: string;
-  terms?: boolean;
+
 
   constructor(init?: Partial<User>) {
     this.fullName = init?.fullName || '';
@@ -18,6 +18,6 @@ export class User {
     this.password = init?.password || '';
     this.confirmPassword = init?.confirmPassword || '';
     this.status = init?.status || '';
-    this.terms = init?.terms || false; // Default to `false` if not provided
+
   }
 }

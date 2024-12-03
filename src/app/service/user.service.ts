@@ -16,25 +16,27 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  // Method to register a new user
-  registerUser(user: User): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.baseUrl}/user/register`, user, { headers, responseType: 'text' })
-      .pipe(
-        map((response: string) => {
-          console.log('Registration response:', response);
-          if (response === 'User registered successfully.') {
-            return { success: true, message: response };
-          } else {
-            return { success: false, message: 'Registration failed. Please try again.' };
-          }
-        }),
-        catchError((error) => {
-          console.error('Registration failed', error);
-          return throwError(() => new Error('Registration failed. Please try again later.'));
-        })
-      );
-  }
+  // In user.service.ts
+registerUser(user: User): Observable<any> {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  return this.http.post(`${this.baseUrl}/user/register`, user, { headers, responseType: 'text' })
+    .pipe(
+      map((response: string) => {
+        console.log('Registration response:', response);
+        if (response === 'User registered successfully.') {
+          return { success: true, message: response };
+        } else {
+          return { success: false, message: 'Registration failed. Please try again.' };
+        }
+      }),
+      catchError((error) => {
+        console.error('Registration failed', error);
+        const errorMessage = error?.error || 'Registration failed. Please try again later.';
+        return throwError(() => new Error(errorMessage));  // Propagate error message from the backend
+      })
+    );
+}
+
 
   // Method to login user
   loginUser(userName: string, password: string): Observable<string> {
